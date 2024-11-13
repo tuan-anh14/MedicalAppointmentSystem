@@ -23,9 +23,31 @@ let displayGetCRUD = async (req, res) => {
   });
 };
 
+let getEditCRUD = async (req, res) => {
+  let userId = req.query.id;
+  if (userId) {
+    let userData = await CRUDService.getUserInfoById(userId);
+    // Check user data not found
+
+    return res.render("editCRUD.ejs", {
+      user: userData,
+    });
+  } else {
+    return res.send("No");
+  }
+};
+
+let putCRUD = async (req, res) => {
+  let data = req.body;
+  await CRUDService.updateUserData(data);
+  res.redirect("back");
+};
+
 module.exports = {
   getHomePage: getHomePage,
   getCRUD: getCRUD,
   postCRUD: postCRUD,
   displayGetCRUD: displayGetCRUD,
+  getEditCRUD: getEditCRUD,
+  putCRUD: putCRUD,
 };
